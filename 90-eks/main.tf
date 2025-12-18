@@ -23,6 +23,23 @@ module "eks" {
   # Optional: Adds the current caller identity as an administrator via cluster access entry
   enable_cluster_creator_admin_permissions = true
 
+  access_entries = {
+  terraform_user = {
+    principal_arn = "arn:aws:iam::445567085619:user/terraform"
+
+    policy_associations = {
+      admin = {
+        policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+        access_scope = {
+          type = "cluster"
+        }
+      }
+    }
+  }
+}
+
+
+
   vpc_id                   = local.vpc_id
   subnet_ids               = local.private_subnet_ids
   control_plane_subnet_ids = local.private_subnet_ids
@@ -58,28 +75,28 @@ module "eks" {
      
     }
 
-    # green = {
-    #   # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
-    #   ami_type       = "AL2023_x86_64_STANDARD"
-    #   instance_types = ["m5.xlarge"]
-    #   iam_role_additional_policies  = {
-    #     amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
-    #     amazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-    #   }
+    green = {
+      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+      ami_type       = "AL2023_x86_64_STANDARD"
+      instance_types = ["m5.xlarge"]
+      iam_role_additional_policies  = {
+        amazonEFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+        amazonEBS = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      }
       
-    #   # cluster nodes autoscaling
-    #   min_size     = 2
-    #   max_size     = 10
-    #   desired_size = 2
+      # cluster nodes autoscaling
+      min_size     = 2
+      max_size     = 10
+      desired_size = 2
 
-      # taints = {
-      #   upgrade = {
-      #     key = "upgrade"
-      #     value = "true"
-      #     effect = "NO_SCHEDULE"
-      #   }
-      # }
-  # }
+      taints = {
+        upgrade = {
+          key = "upgrade"
+          value = "true"
+          effect = "NO_SCHEDULE"
+        }
+      }
+  }
 
   tags = merge(
     local.common_tags,
