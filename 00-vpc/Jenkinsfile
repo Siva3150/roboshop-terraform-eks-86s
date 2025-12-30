@@ -72,8 +72,8 @@ pipeline {
         stage ('Trigger SG'){
             steps{
                 script {
-                    build job: 10-sg;
-                     wait: true, // Wait for completion
+                    build job: '10-sg';
+                    wait: true, // Wait for completion
                     propagate: true // Propagate status
 
                 }
