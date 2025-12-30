@@ -31,7 +31,7 @@ pipeline {
                 script {
                     withAWS(region:'us-east-1',credentials:'aws-creds') {
                     sh """
-                    cd 00-vpc 
+                    cd 30-sg-rules 
                     terraform init 
 
                     """
@@ -45,7 +45,7 @@ pipeline {
                 script {
                     withAWS(region:'us-east-1',credentials:'aws-creds') {
                     sh """
-                    cd 00-vpc 
+                    cd 30-sg-rules 
                     terraform plan
 
                     """
@@ -59,7 +59,7 @@ pipeline {
                 script {
                     withAWS(region:'us-east-1',credentials:'aws-creds') {
                         sh """
-                            cd 00-vpc
+                            cd 30-sg-rules
                             terraform apply -auto-approve
                         """
                     }
@@ -69,16 +69,6 @@ pipeline {
             }
         }
 
-        stage ('Trigger SG'){
-            steps{
-                script {
-                    build job: '10-sg',
-                     wait: false, // Wait for completion
-                     propagate: false // Propagate status
-
-                }
-            }
-        }
      }
      // This is post-build section
      post {
