@@ -22,7 +22,7 @@ module "eks" {
   endpoint_public_access = false
 
   # Optional: Adds the current caller identity as an administrator via cluster access entry
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
 
   access_entries = {
   terraform_user = {
