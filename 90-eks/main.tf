@@ -111,6 +111,8 @@ module "eks" {
         }
   }
 
+  }
+
   tags = merge(
     local.common_tags,
     {
@@ -120,4 +122,3 @@ module "eks" {
   
 }
 
-}
